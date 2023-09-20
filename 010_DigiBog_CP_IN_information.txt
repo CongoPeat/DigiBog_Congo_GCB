@@ -1,0 +1,40 @@
+2         !number of pfts
+3         !number of litter fractions (leaves, wood, roots)
+2         !number of pools within each fraction
+7         !number of parameters per fraction (n_pools x 2 (ox/anox)) + recal prop.n + density + new mass
+13        !index of start of range for recalcitrance parameters
+15        !index of end of range for recalcitrance parameters
+16        !index of start of range for bulk density parameters
+18        !index of end of range for bulk density parameters
+19        !index of start of range for new mass values
+21        !index of end of range for new mass values
+22        !index of pft proportion
+23.26     !base temperature (°C)
+2.5       !Q10 oxic
+2.5       !Q10 anoxic
+0.3       !porosity
+31740.0   !K a parameter (cm^s)
+8.0       !K b parameter
+19600     !time extent (years) - of original simulation if a spin-up read.
+525600    !annual minutes
+1         !output interval (years)
+3         !x extent
+3         !y extent
+200.0     !spatial step (cm)
+30.0      !pond thickness (cm)
+30.0      !maximum rooting depth
+1         !time step multiplier (for use with variable time step)
+50        !layer lumping exclusion (number of layers)
+0.6       !layer lumping threshold (thickness cm)
+100.0     !mineral soil thickness (cm)
+2         !net rain interval (annual = 1, monthly = 2, weekly = 3)
+5.0       !minimum time step (mins)
+120.0     !maximum time step (mins)
+300       !time in years to start increasing the time step
+1300      !time in years at which the max time step is reached
+0.08      !constant for water table part of olf
+0.08      !constant for peat height part of olf
+411       !reference value for atmospheric co2 concentration ppm
+0.17      !beta factor (change in GPP as a result of change in CO2 100 ppm-1)
+0         !spin up. 0 = normal run, 1 = spin-up write, 2 = spin up read
+0        !additonal time for spin-up read to run for. Make sure = 0 for spin up write

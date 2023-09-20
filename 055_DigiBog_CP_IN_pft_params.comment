@@ -1,0 +1,28 @@
+!This file is to show how the 055*.txt parameter file should be set up
+!it isn't used by the model and is for reference purposes only. Best viewed
+!side by side with the 055*.txt file. The values in this file are for testing
+!purposes only and shouldn't be used to parameterise a model run.
+
+!PFT1   !PFT2  !DESCRIPTION
+1       16     !leaves oxic decay labile
+3       18     !wood oxic decay labile
+5       20     !roots oxic decay labile
+7       22     !leaves anoxic decay labile
+9       24     !wood anoxic decay labile
+11      26     !roots anoxic decay labile
+2       17     !leaves oxic decay recalcitrant
+4       19     !wood oxic decay recalcitrant
+6       21     !roots oxic decay recalcitrant
+8       23     !leaves anoxic decay recalcitrant
+10      25     !wood anoxic decay recalcitrant
+12      27     !roots anoxic decay recalcitrant
+13      28     !leaves: proportion of recalcitrant material
+14      29     !wood: proportion of recalcitrant material
+15      30     !roots: proportion of recalcitrant material
+0.1    0.4     !leaves: density
+0.2    0.5     !wood: density
+0.3    0.6     !roots: desnity
+40     70      !leaves: new mass
+50     80      !wood: new mass
+60     90      !roots: new mass
+0.5   0.5      !pft: proportion of new mass

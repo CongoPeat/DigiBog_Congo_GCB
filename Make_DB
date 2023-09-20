@@ -1,0 +1,68 @@
+#Makefile for DigiBog_Congo
+#Dylan Young
+#Date: 21st Jan 2015
+#Version 1.2
+# Updated Date: 08 Aug 2017
+#Version 2
+#Version uses code optimisation
+#Updated Date: 25 Jan 2023
+#Version 3
+#Rearranged to include digibog_procedures and global definitions files
+#NOTE ************************************************************************
+#Designed for use with a wrapper script to set the FC environment variable
+#*******************************************************************************
+
+#Fortran complier set in accompanying bash script
+FC := $(comp)
+
+#Check if using Leeds foe-linux
+ifeq ($(FC), ifort)
+    #ifort optimisation recommended by
+    #https://scicomp.stackexchange.com/questions/265/intel-fortran-compiler-tips-on-optimization-at-compilation
+    FCFLAGS = -c -O3 -xHost -ipo
+    #OR less aggressive
+    #FCFLAGS = -c -O3 -xhost -fp-model precise -fp-model except
+  else
+  #gfortran optimisation
+    FCFLAGS = -c -O3
+  endif
+
+#No need for linker flags
+LDFLAGS =
+
+#Executable name
+NAME := Run_DigiBog
+
+#Read in source (f90) files and identify as object files
+OBJECT1 := $(patsubst %.f90, %.o, $(wildcard global_def*.f90))
+OBJECT2 := $(patsubst %.f90, %.o, $(wildcard DigiBog_Hydro*.f90))
+OBJECT3 := $(patsubst %.f90, %.o, $(wildcard DigiBog_new_*.f90))
+OBJECT4 := $(patsubst %.f90, %.o, $(wildcard DigiBog_Main_*.f90))
+
+#Main program
+all: $(NAME)
+
+#Dependencies
+$(NAME): $(OBJECT1) $(OBJECT2) $(OBJECT3) $(OBJECT4)
+#Hydro depends on global defs
+$(OBJECT2): $(OBJECT1)
+#New layer depends on global defs
+$(OBJECT3): $(OBJECT1)
+#Main file depends on all modules
+$(OBJECT4): $(OBJECT1) $(OBJECT2) $(OBJECT3)
+
+#Link object files
+$(NAME):
+	$(FC) $(LDFLAGS) $^ -o $@
+
+#Compile f90 files into object files
+%.o: %.f90
+	$(FC) $(FCFLAGS) $< -o $@
+
+#File extensions for '$ make clean'
+.PHONY: clean
+
+#Can run 'make -f Make_DB clean' independently to remove compiled files but this
+#process is done automatically if the accompanying bash wrapper is used
+clean:
+	rm -f $(NAME) *.mod *.o

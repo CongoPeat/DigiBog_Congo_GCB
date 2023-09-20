@@ -1,0 +1,56 @@
+#Makefile for DigiBog_Congo
+#Dylan Young
+#Date: 3rd August 2017
+#Updated 12 September 2023
+#Version 2.0
+#Version does not use any code optimisation
+#For use with GDB and therefore needs gfortran
+
+#NOTE: Dealing with *.mod files
+#https://gcc.gnu.org/bugzilla/show_bug.cgi?id=47495#c6
+#http://lists.gnu.org/archive/html/help-make/2011-01/msg00103.html
+#===============================================================================
+#Fortran complier
+FC := gfortran
+
+#Compiler flags for debugging
+FCFLAGS = -g -Wall -Wextra -pedantic -fbounds-check -O0 -c
+#No need to set linker flags
+LDFLAGS =
+
+#Executable name
+NAME := Run_DigiBog_debug
+
+#Read in source (f90) files and identify as object files
+OBJECT1 := $(patsubst %.f90, %.o, $(wildcard global_def*.f90))
+OBJECT2 := $(patsubst %.f90, %.o, $(wildcard DigiBog_Hydro*.f90))
+OBJECT3 := $(patsubst %.f90, %.o, $(wildcard DigiBog_new_*.f90))
+OBJECT4 := $(patsubst %.f90, %.o, $(wildcard DigiBog_MAIN_*.f90))
+
+#Main program
+all: $(NAME)
+
+#Dependencies
+$(NAME): $(OBJECT1) $(OBJECT2) $(OBJECT3) $(OBJECT4)
+#Hydro depends on global defs
+$(OBJECT2): $(OBJECT1)
+#New layer depends on global defs
+$(OBJECT3): $(OBJECT1)
+#Main file depends on all modules
+$(OBJECT4): $(OBJECT1) $(OBJECT2) $(OBJECT3)
+
+#Link object files
+$(NAME):
+	$(FC) $(LDFLAGS) $^ -o $@
+
+#Compile f90 files into object files
+%.o: %.f90
+	$(FC) $(FCFLAGS) $< -o $@
+
+#File extensions for '$ make clean'
+.PHONY: clean
+
+#Can run 'make -f Make_DB clean' independently to remove compiled files but this
+#process is done automatically if the accompanying bash wrapper is used
+clean:
+	rm -f $(NAME) *.mod *.o
