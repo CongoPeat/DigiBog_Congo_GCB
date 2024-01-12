@@ -166,7 +166,7 @@ use global_definition
 
     !Local scalars
     integer :: x = 1, y = 1, z = 1, peat_top = 1, pft = 1, litter_frac = 0
-    real(kind=q) :: age_orig = 0, mass_orig = 0, weight_orig = 0, weight_new = 0
+   !real(kind=q) :: age_orig = 0, mass_orig = 0, weight_orig = 0, weight_new = 0
 
     !Calculations
     !Add the new litter fractions
@@ -265,9 +265,9 @@ use global_definition
             !layer (peat_top) and within the rooting depth.
             do z = peat_top - root_count(x, y), peat_top - 1
               !Save the age of the layer before the roots are added
-              age_orig = layer_age(x, y, z)
+              !age_orig = layer_age(x, y, z)
               !Save the current mass of the layer
-              mass_orig = layer_mass(x, y, z, 1)
+              !mass_orig = layer_mass(x, y, z, 1)
               !Calculate the new mass for each litter fraction
               do pft = 1, n_pft
                 !Set the recalcitrant proportions for the pft
@@ -353,13 +353,13 @@ use global_definition
 
           !Calculate new age of layers. Weight the age depending on old and new
           !mass
-          do z = peat_top - root_count(x, y), peat_top - 1
-            weight_orig = mass_orig / layer_mass(x, y, z, 1)
-            weight_new = (layer_mass(x, y, z, 1) - &
-              mass_orig) / (layer_mass(x, y, z, 1))
+          !do z = peat_top - root_count(x, y), peat_top - 1
+          !  weight_orig = mass_orig / layer_mass(x, y, z, 1)
+          !  weight_new = (layer_mass(x, y, z, 1) - &
+          !    mass_orig) / (layer_mass(x, y, z, 1))
             !The age of new material is 1. And the weights should add to 1
-            layer_age(x, y, z) = (age_orig * weight_orig ) + (1 * weight_new)
-          end do
+          !  layer_age(x, y, z) = (age_orig * weight_orig ) + (1 * weight_new)
+          !end do
 
           !Layer drainable porosity
           layer_attributes(x, y, peat_top, 3) = porosity

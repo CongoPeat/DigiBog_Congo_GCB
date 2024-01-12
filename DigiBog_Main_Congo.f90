@@ -405,7 +405,6 @@ character (len=40) :: data_file_name_510, & !Wet proportion out
   open(unit=050, file=data_file_name_050, status="old")
   open(unit=055, file=data_file_name_055, status="old")
 
-  !todo #3
   !Read data from information input data file.
   read (010, *) n_pft
   read (010, *) n_fractions
@@ -474,7 +473,6 @@ character (len=40) :: data_file_name_510, & !Wet proportion out
   data_file_name_210 = "210_DigiBog_CP_OUT_layer_heights.txt"
   data_file_name_220 = "220_DigiBog_CP_OUT_layer_age.txt"
 
-  !todo #13
   open(unit=060, file=data_file_name_060, status=file_status, &
     position=file_pos)
   open(unit=070, file=data_file_name_070, status=file_status, &
@@ -547,9 +545,14 @@ character (len=40) :: data_file_name_510, & !Wet proportion out
 
   !Is this run a spin-up?
   if (spin_up == 1) then
+    print *
     write (*, *) "This is a spin-up write run (spin_up = 1)"
   else if (spin_up == 2) then
+    print *
     write (*, *) "This is a spin-up read run (spin_up = 2)"
+  else
+    print *
+    write (*, *) "This is a standard model run (no spin up)"
   end if
 
   write (*, '(A31)') "Is this  correct (y/n)?"
@@ -881,7 +884,6 @@ character (len=40) :: data_file_name_510, & !Wet proportion out
   !Bulk density values for each fraction in each pft
   density(:, :) = pft_params(:, dens_start:dens_end)
 
-  !todo #17
   ! Initialise the properties for a layer of mineral soil.
   do x = 1, x_extent
     do y = 1, y_extent
@@ -1366,7 +1368,7 @@ character (len=40) :: data_file_name_510, & !Wet proportion out
                   !Add anoxic decay
                   (pft_layer_mass(x, y, z, pft, litter_frac, 1) * &
                     wet_proportion(x, y, z) * &
-                    (exp (- decay_params(pft, litter_frac + n_decay_params)  * &
+                    (exp (- decay_params(pft, litter_frac + n_fractions)  * &
                           timestep)))
 
                   !Recalcitrant pool ====
@@ -1374,13 +1376,14 @@ character (len=40) :: data_file_name_510, & !Wet proportion out
                   pft_layer_mass(x, y, z, pft, litter_frac, 2) = &
                     (pft_layer_mass(x, y, z, pft, litter_frac, 2) * &
                       (1 - wet_proportion(x, y, z)) * &
-                        (exp (- decay_params(pft, litter_frac + n_fractions) * &
+                        (exp (- decay_params(pft, litter_frac + &
+                        (n_fractions * n_pools)) * &
                         timestep))) + &
                   !Add anoxic decay
                   (pft_layer_mass(x, y, z, pft, litter_frac, 2) * &
                     wet_proportion(x, y, z) * &
                     (exp (- decay_params(pft,litter_frac + n_fractions + &
-                            n_decay_params)  * timestep)))
+                            (n_fractions * n_pools))  * timestep)))
 
                   !Set thickness of each fraction
                   pft_layer_mass(x, y, z, pft, litter_frac, 5) = &
