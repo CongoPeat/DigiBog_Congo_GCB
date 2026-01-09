@@ -17,7 +17,6 @@ global_def.f90
 030_DigiBog_CP_IN_temp.txt
 035_DigiBog_CP_IN_co2_ppm.txt
 040_DigiBog_CP_IN_column_status.txt
-041_DigiBog_CP_IN_column_status.txt
 050_DigiBog_CP_IN_baltitude.txt
 055_DigiBog_CP_IN_pft_params.comment (describes values in file 055*.txt)
 055_DigiBog_CP_IN_pft_params.txt
